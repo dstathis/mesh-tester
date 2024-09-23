@@ -1,0 +1,27 @@
+name: mesh-tester
+type: charm
+title: Mesh Tester
+summary: Charm for testing Service mesh.
+description: Charm for testing Service mesh.
+
+bases:
+  - build-on:
+    - name: ubuntu
+      channel: "22.04"
+    run-on:
+    - name: ubuntu
+      channel: "22.04"
+
+requires:
+  service-mesh:
+    interface: service_mesh
+  require-cmr-mesh:
+    interface: cross_model_mesh
+  foo-r:
+    interface: bar
+
+provides:
+  provide-cmr-mesh:
+    interface: cross_model_mesh
+  foo-p:
+    interface: bar
