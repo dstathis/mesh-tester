@@ -337,7 +337,11 @@ class ServiceMeshConsumer(Object):
                     labels[label] = None
         if stateful_set.spec:
             stateful_set.spec.template.metadata.labels.update(labels)
-        config_map.data = {"labels": json.dumps({key: value for (key, value) in labels.items() if value is not None})}
+        config_map.data = {
+            "labels": json.dumps(
+                {key: value for (key, value) in labels.items() if value is not None}
+            )
+        }
         # TODO: We should look into whether it is possible to do the next two commands as one
         # transaction. As it is now, if the code crashes between the two commands, we could end up
         # leaving dangling labels on the StatefulSet.
@@ -347,7 +351,7 @@ class ServiceMeshConsumer(Object):
     def _create_label_configmap(self, client) -> ConfigMap:
         """Create an empty ConfigMap unique to this charm."""
         obj = ConfigMap(
-                data={"labels": "{}"},
+            data={"labels": "{}"},
             metadata=ObjectMeta(
                 name=self._label_configmap_name,
                 namespace=self._charm.model.name,
@@ -358,7 +362,7 @@ class ServiceMeshConsumer(Object):
 
     def _delete_label_configmap(self) -> None:
         client = Client(namespace=self._charm.model.name, field_manager=self._charm.app.name)
-        clinet.delete(res=ConfigMap, name=self._label_configmap_name)
+        client.delete(res=ConfigMap, name=self._label_configmap_name)
 
 
 class ServiceMeshProvider(Object):
