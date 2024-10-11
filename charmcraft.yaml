@@ -14,6 +14,7 @@ bases:
 
 requires:
   service-mesh:
+    limit: 1
     interface: service_mesh
   require-cmr-mesh:
     interface: cross_model_mesh
